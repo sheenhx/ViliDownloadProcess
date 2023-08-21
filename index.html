@@ -38,10 +38,7 @@
 
     <img id="centeredImage" src="pic/wechat.jpg" alt="WeChat Image">
     <script type="text/javascript">
-        //声明_czc对象:
-        var _czc = _czc || [];
-        //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
-        _czc.push(["_setAccount", "1275487845"]);
+ 
         // 获取终端的相关信息
         var Terminal = {
             // 辨别移动终端类型
@@ -63,15 +60,15 @@
         // 根据不同的终端，跳转到不同的地址
         var theUrl = 'https://itunes.apple.com/app/apple-store/id1444012539?pt=119070313&ct=WeChatOa&mt=8';
         if (Terminal.platform.android) {//安卓端
-            _czc.push(['_trackEvent', '未你', '下载', 'Android']);
+
             theUrl = 'https://lf9-apk.ugapk.cn/package/apk/aweme/5072_260101/aweme_douyinweb1_64_v5072_260101_4eca_1689077150.apk';
             location.href = theUrl;
         } else {
             if (Terminal.platform.iPhone) {//iPhone端
-                _czc.push(['_trackEvent', '未你', '下载', 'iPhone']);
+
                 theUrl = 'https://itunes.apple.com/app/apple-store/id1444012539?pt=119070313&ct=WeChatOa&mt=8';
             } else if (Terminal.platform.iPad) {//iPad端
-                _czc.push(['_trackEvent', '未你', '下载', 'iPad']);
+ 
                 // 还可以通过language，区分开多国语言版
                 switch (Terminal.language) {
                     case 'en-us'://iPad英文版APP Store地址
@@ -87,11 +84,12 @@
                         theUrl = 'https://itunes.apple.com/app/apple-store/id1444012539?pt=119070313&ct=WeChatOa&mt=8';
                 }
             } else {
-                _czc.push(['_trackEvent', '未你', '下载', 'Other']);
+
             }
             location.href = theUrl;
         }
     </script>
+    <script type="text/javascript" src="//js.users.51.la/21771249.js"></script>
 </body>
 
 </html>
