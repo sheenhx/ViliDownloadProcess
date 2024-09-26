@@ -1,0 +1,15 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.mxc.moonchain",
+            "sha256_cert_fingerprints": [
+                "E7:CA:6C:40:9F:82:42:45:1C:1C:99:38:74:DC:DF:C9:41:F5:05:CB:0E:98:5D:01:99:63:7E:1D:28:77:92:FE",
+                "83:C9:09:DA:0A:E1:31:D2:37:C1:CE:E3:71:3F:6A:9E:17:79:7E:E0:41:B4:AA:37:FA:D4:01:06:57:77:84:23"
+            ]
+        }
+    }
+]
