@@ -1,0 +1,21 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [  "BHQG2XZ884.com.mxc.moonchain" ],
+             "components": [
+               {
+                  "#": "no_universal_links",
+                  "exclude": true,
+                  "comment": ""
+               },
+               {
+                  "/": "/app/*",
+                  "exclude": false,
+                  "comment": "Matches any URL with a path that starts with /app/."
+               }
+             ]
+           }
+       ]
+   }
+}
