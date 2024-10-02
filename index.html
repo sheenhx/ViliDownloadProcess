@@ -115,11 +115,11 @@
 
                 if (isAndroid) {
                     // Android user outside China
-                    var googlePlayLink = 'https://play.google.com/store/apps/details?id=YOUR_APP_ID'; // Replace YOUR_APP_ID with actual app ID
+                    var googlePlayLink = 'https://play.google.com/store/apps/details?id=com.moonchain.mxc&pli=1'; // Replace YOUR_APP_ID with actual app ID
                     window.location.href = googlePlayLink;
                 } else if (isiOS) {
                     // iOS user outside China
-                    var appStoreLink = 'https://apps.apple.com/app/id6460891587'; // Updated link format for Apple App Store
+                    var appStoreLink = 'https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768'; // Updated link format for Apple App Store
                     window.location.href = appStoreLink;
                 } else {
                     // Other devices or platforms
@@ -150,7 +150,7 @@
                 }
 
                 // Redirect to different addresses based on different terminals
-                var theUrl = 'https://apps.apple.com/app/id6460891587';
+                var theUrl = 'https://apps.apple.com/app/id6736371768';
                 if (Terminal.platform.android) { // Android
 
                     theUrl = 'https://app.xbmxc.com/app/moonchain.apk';
@@ -158,7 +158,7 @@
                 } else {
                     if (Terminal.platform.iPhone) { // iPhone
 
-                        theUrl = 'https://apps.apple.com/app/id6460891587';
+                        theUrl = 'https://apps.apple.com/app/id6736371768';
                         location.href = theUrl;
                     } else if (Terminal.platform.iPad) { // iPad
 
@@ -168,7 +168,7 @@
                             case 'ko-kr':// Korean version of iPad APP Store address
                             case 'ja-jp':// Japanese version of iPad APP Store address
                             default:// Default iPad APP Store address
-                                theUrl = 'https://apps.apple.com/app/id6460891587';
+                                theUrl = 'https://apps.apple.com/app/id6736371768';
                                 location.href = theUrl;
                         }
                     } else {
