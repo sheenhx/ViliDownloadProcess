@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App is not installed</title>
     <script>
-        // Check if the URL path is not empty
-        if (window.location.pathname !== '/') {
-            // Redirect to the home page
+        // Check if the URL path is not empty and does NOT start with /app/
+        if (window.location.pathname !== '/' && !window.location.pathname.startsWith('/app/')) {
+            // Redirect to the home page only for non-app paths
             window.location.href = '/';
         }
     </script>
