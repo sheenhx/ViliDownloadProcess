@@ -1,19 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App is not installed</title>
-    <script>
-        // Check if the URL path is not empty and does NOT start with /app/
-        if (window.location.pathname !== '/' && !window.location.pathname.startsWith('/app/')) {
-            // Redirect to the home page only for non-app paths
-            window.location.href = '/';
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonBase App is not installed</title>
+  <style>
+    @font-face {
+      font-family: 'SpaceXFont';
+      src: url('SpaceX.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-text {
+      font-family: 'SpaceXFont';
+      color: #fff;
+      /* Optional styling */
+      font-size: 24px;
+      /* Increase font size */
+      text-decoration: none;
+      /* Remove underline */
+    }
+
+    /* Resetting margins and padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Set up background with starry effect */
+    body {
+      background-color: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
+      position: relative;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      /* Adding blur effect */
+      background: rgba(0, 0, 0, 0.2);
+      /* Transparent background */
+    }
+
+    /* Navbar logo */
+    /*.navbar-logo img {
+      height: 40px;
+      cursor: pointer;
+    }*/
+
+    /* Centered box styling */
+    .content-box {
+      background-color: #333;
+      /* grey background */
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 300px;
+    }
+
+    /* Logo in the centered box */
+    .box-logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+
+    /* Button styling */
+    .redirect-button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+      background-color: white;
+    }
+
+    /* Link styling */
+    .small-text {
+      font-size: 0.9em;
+      color: #bbb;
+      margin-top: 10px;
+    }
+
+    .small-text a {
+      color: #1C93E3;
+      text-decoration: none;
+    }
+
+    .small-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Star styling */
+    .star {
+      width: 2px;
+      height: 2px;
+      background: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      border-radius: 50%;
+      animation: twinkling 3s infinite ease-in-out;
+    }
+
+    /* Random star animation for twinkling effect */
+    @keyframes twinkling {
+
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>404 - Page Not Found</h1>
-    <p>Downloading the app...</p>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-logo">
+      <a href="/" class="logo-text">MOONCHAIN</a>
+    </div>
+  </div>
+
+  <!-- Centered Content Box -->
+  <div class="content-box">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+      <img
+        src="https://raw.githubusercontent.com/MXCzkEVM/MEP-1759-DApp-store/refs/heads/main/mxc_dapps_thumbnails/moonchain.svg"
+        alt="Moonchain Logo" width="150">
+      <p style="color: white; font-family: Arial; font-size: 24px; font-weight: bold; margin: 0;">MoonBase Wallet</p>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0px; margin-top: 20px;">
+      <button class="redirect-button" onclick="redirectToMoonBaseApp()">Redirect to App</button>
+      <p class="small-text">Don't have MoonBase app? <a href="https://mxc1usd.com">click here</a></p>
+    </div>
+  </div>
+
+  <!-- Stars Background Effect -->
+  <script>
+    // Create stars and randomly position them
+    const starCount = 100;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.animationDuration = `${2 + Math.random() * 3}s`; // Random twinkling duration
+      document.body.appendChild(star);
+    }
+
+    function redirectToMoonBaseApp() {
+      let currentUrl = window.location.href;
+      console.log("currentUrl "+ currentUrl)
+
+      let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
+      console.log("modifiedUrl "+ currentUrl)
+
+      setTimeout(function () {
+        window.location = modifiedUrl;
+      }, 100);
+    }
+
+
+    window.onload = redirectToMoonBaseApp;
+
+  </script>
+
 </body>
+
 </html>
