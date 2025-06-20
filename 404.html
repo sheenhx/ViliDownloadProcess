@@ -182,15 +182,20 @@
 
       // Extract the full path and query parameters to pass to the app
       let pathData = window.location.pathname + window.location.search + window.location.hash;
+      console.log("Full current URL: " + currentUrl);
+      console.log("pathname: " + window.location.pathname);
+      console.log("search: " + window.location.search);
+      console.log("hash: " + window.location.hash);
       console.log("Path data to pass to app: " + pathData);
 
       if (isAndroid) {
-        // For Android, construct the proper deep link URL
-        // First try App Link format: https://mxc1usd.com/app/[data]
-        let appLinkUrl = `https://mxc1usd.com/app${pathData}`;
-        console.log("Android App Link: " + appLinkUrl);
+        // For Android, try multiple URL formats to see which one works
+        console.log("Android detected - trying multiple URL formats");
         
-        // Try to open with App Link first
+        // Format 1: App Link with full path
+        let appLinkUrl = `https://mxc1usd.com/app${pathData}`;
+        console.log("Format 1 - App Link: " + appLinkUrl);
+        
         const appLinkIframe = document.createElement('iframe');
         appLinkIframe.style.display = 'none';
         appLinkIframe.src = appLinkUrl;
@@ -200,10 +205,10 @@
           document.body.removeChild(appLinkIframe);
         }, 100);
         
-        // Then try custom scheme: moonbase://mxc1usd.com/app/[data]
+        // Format 2: Custom scheme with full path
         setTimeout(() => {
           let customSchemeUrl = `moonbase://mxc1usd.com/app${pathData}`;
-          console.log("Android Custom Scheme: " + customSchemeUrl);
+          console.log("Format 2 - Custom Scheme: " + customSchemeUrl);
           
           const schemeIframe = document.createElement('iframe');
           schemeIframe.style.display = 'none';
@@ -215,13 +220,41 @@
           }, 100);
         }, 200);
         
-        // Fallback to Play Store if app doesn't open
+        // Format 3: Try with query parameter instead
+        setTimeout(() => {
+          if (pathData && pathData !== '/') {
+            let targetUrl = pathData.replace(/^\//, ''); // remove leading slash
+            let queryParamUrl = `https://mxc1usd.com/app/?url=${encodeURIComponent('https://' + targetUrl)}`;
+            console.log("Format 3 - Query Parameter: " + queryParamUrl);
+            
+            const queryIframe = document.createElement('iframe');
+            queryIframe.style.display = 'none';
+            queryIframe.src = queryParamUrl;
+            document.body.appendChild(queryIframe);
+            
+            setTimeout(() => {
+              document.body.removeChild(queryIframe);
+            }, 100);
+          }
+        }, 400);
+        
+        // Format 4: Try Android Intent URL
+        setTimeout(() => {
+          if (pathData && pathData !== '/') {
+            let targetUrl = pathData.replace(/^\//, '');
+            let intentUrl = `intent://mxc1usd.com/app/?url=${encodeURIComponent('https://' + targetUrl)}#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end`;
+            console.log("Format 4 - Intent URL: " + intentUrl);
+            window.location.href = intentUrl;
+          }
+        }, 600);
+        
+        // Fallback to Play Store if nothing works
         setTimeout(() => {
           if (document.visibilityState === 'visible') {
-            console.log("App didn't open, redirecting to Play Store");
+            console.log("All formats failed, redirecting to Play Store");
             window.location.href = 'https://play.google.com/store/apps/details?id=com.moonchain.app';
           }
-        }, 1500);
+        }, 2500);
         
       } else if (isiOS) {
         // For iOS, use Universal Link first, then custom scheme

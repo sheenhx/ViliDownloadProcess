@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Test - MoonBase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-link {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+        .test-link:hover {
+            background-color: #e0e0e0;
+        }
+        .url-display {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+        }
+        .format-title {
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Deep Link Test Page</h1>
+    <p><strong>Target:</strong> testnet.blueberryring.com</p>
+    
+    <h2>Test these different URL formats by clicking:</h2>
+    
+    <a href="https://mxc1usd.com/app/testnet.blueberryring.com" class="test-link">
+        <div class="format-title">Format 1: Direct Path</div>
+        <div class="url-display">https://mxc1usd.com/app/testnet.blueberryring.com</div>
+    </a>
+    
+    <a href="https://mxc1usd.com/app/?url=https://testnet.blueberryring.com" class="test-link">
+        <div class="format-title">Format 2: Query Parameter</div>
+        <div class="url-display">https://mxc1usd.com/app/?url=https://testnet.blueberryring.com</div>
+    </a>
+    
+    <a href="https://mxc1usd.com/app/https%3A%2F%2Ftestnet.blueberryring.com" class="test-link">
+        <div class="format-title">Format 3: URL Encoded</div>
+        <div class="url-display">https://mxc1usd.com/app/https%3A%2F%2Ftestnet.blueberryring.com</div>
+    </a>
+    
+    <a href="moonbase://mxc1usd.com/app/testnet.blueberryring.com" class="test-link">
+        <div class="format-title">Format 4: Custom Scheme Direct</div>
+        <div class="url-display">moonbase://mxc1usd.com/app/testnet.blueberryring.com</div>
+    </a>
+    
+    <a href="moonbase://mxc1usd.com/app/?url=https://testnet.blueberryring.com" class="test-link">
+        <div class="format-title">Format 5: Custom Scheme Query</div>
+        <div class="url-display">moonbase://mxc1usd.com/app/?url=https://testnet.blueberryring.com</div>
+    </a>
+    
+    <a href="intent://mxc1usd.com/app/?url=https%3A%2F%2Ftestnet.blueberryring.com#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end" class="test-link">
+        <div class="format-title">Format 6: Android Intent URL</div>
+        <div class="url-display">intent://mxc1usd.com/app/?url=https%3A%2F%2Ftestnet.blueberryring.com#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end</div>
+    </a>
+    
+    <h2>Instructions:</h2>
+    <ol>
+        <li>Open this page on your Android device</li>
+        <li>Click each link format one by one</li>
+        <li>See which one successfully opens the app AND navigates to testnet.blueberryring.com</li>
+        <li>Check your app logs to see what URL data is being received</li>
+    </ol>
+    
+    <h2>Debug Info:</h2>
+    <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+    <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+    
+    <script>
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('currentUrl').textContent = window.location.href;
+    </script>
+</body>
+</html> 
