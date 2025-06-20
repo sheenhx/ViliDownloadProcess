@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Debug - MoonBase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        .info {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        #log {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            min-height: 200px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>MoonBase Deep Link Debug</h1>
+    
+    <div class="info">
+        <h3>Device Info:</h3>
+        <p id="deviceInfo"></p>
+    </div>
+
+    <button class="test-button" onclick="testCustomScheme()">Test Custom Scheme (moonbase://)</button>
+    <button class="test-button" onclick="testAppLink()">Test App Link (https://)</button>
+    <button class="test-button" onclick="testIntentUrl()">Test Android Intent URL</button>
+    <button class="test-button" onclick="testCurrentPageScheme()">Test Current Page as moonbase://</button>
+    <button class="test-button" onclick="clearLog()">Clear Log</button>
+
+    <div id="log"></div>
+
+    <script>
+        // Display device info
+        const userAgent = navigator.userAgent;
+        const isAndroid = /Android/i.test(userAgent);
+        const isiOS = /iPhone|iPad|iPod/i.test(userAgent);
+        const isMobile = isAndroid || isiOS;
+        
+        document.getElementById('deviceInfo').innerHTML = `
+            User Agent: ${userAgent}<br>
+            Android: ${isAndroid}<br>
+            iOS: ${isiOS}<br>
+            Mobile: ${isMobile}
+        `;
+
+        function log(message) {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').textContent = '';
+        }
+
+        function testCustomScheme() {
+            const url = 'moonbase://test';
+            log(`Testing custom scheme: ${url}`);
+            
+            if (isAndroid) {
+                // Use iframe approach for Android
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = url;
+                document.body.appendChild(iframe);
+                
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                    log('Iframe removed after 100ms');
+                }, 100);
+                
+                setTimeout(() => {
+                    if (document.visibilityState === 'visible') {
+                        log('App did not open - would redirect to Play Store');
+                    } else {
+                        log('Page became hidden - app likely opened');
+                    }
+                }, 1500);
+            } else {
+                // Direct navigation for iOS
+                window.location = url;
+            }
+        }
+
+        function testAppLink() {
+            const url = `https://${window.location.host}${window.location.pathname}`;
+            log(`Testing app link: ${url}`);
+            window.location = url;
+        }
+
+        function testIntentUrl() {
+            if (isAndroid) {
+                const intentUrl = `intent://test#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end`;
+                log(`Testing Android intent: ${intentUrl}`);
+                window.location = intentUrl;
+            } else {
+                log('Intent URLs only work on Android');
+            }
+        }
+
+        function testCurrentPageScheme() {
+            let currentUrl = window.location.href;
+            let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
+            log(`Testing current page as scheme: ${modifiedUrl}`);
+            
+            if (isAndroid) {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = modifiedUrl;
+                document.body.appendChild(iframe);
+                
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                    log('Iframe removed after 100ms');
+                }, 100);
+            } else {
+                window.location = modifiedUrl;
+            }
+        }
+
+        // Log page load
+        log('Debug page loaded');
+    </script>
+</body>
+</html> 

@@ -174,16 +174,55 @@
 
     function redirectToMoonBaseApp() {
       let currentUrl = window.location.href;
-      console.log("currentUrl "+ currentUrl)
+      console.log("currentUrl: " + currentUrl);
 
-      let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
-      console.log("modifiedUrl "+ currentUrl)
+      // Detect if it's Android or iOS
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-      setTimeout(function () {
-        window.location = modifiedUrl;
-      }, 100);
+      if (isAndroid) {
+        // For Android, try the custom scheme first, then fallback to Play Store
+        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
+        console.log("Android modifiedUrl: " + modifiedUrl);
+        
+        // Try to open the app with the custom scheme
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = modifiedUrl;
+        document.body.appendChild(iframe);
+        
+        // Remove the iframe after attempting to open
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 100);
+        
+        // Fallback to Play Store if app doesn't open (after a delay)
+        setTimeout(() => {
+          if (document.visibilityState === 'visible') {
+            // App didn't open, redirect to Play Store
+            window.location.href = 'https://play.google.com/store/apps/details?id=com.moonchain.app';
+          }
+        }, 1500);
+        
+      } else if (isiOS) {
+        // For iOS, use the universal link approach
+        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
+        console.log("iOS modifiedUrl: " + modifiedUrl);
+        
+        setTimeout(function () {
+          window.location = modifiedUrl;
+        }, 100);
+        
+      } else {
+        // For other platforms, try the custom scheme
+        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
+        console.log("Other platform modifiedUrl: " + modifiedUrl);
+        
+        setTimeout(function () {
+          window.location = modifiedUrl;
+        }, 100);
+      }
     }
-
 
     window.onload = redirectToMoonBaseApp;
 
