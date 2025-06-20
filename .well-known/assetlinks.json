@@ -6,11 +6,7 @@
         "target": {
             "namespace": "android_app",
             "package_name": "com.moonchain.app",
-            "sha256_cert_fingerprints": [
-                "83:C9:09:DA:0A:E1:31:D2:37:C1:CE:E3:71:3F:6A:9E:17:79:7E:E0:41:B4:AA:37:FA:D4:01:06:57:77:84:23",
-                "45:04:E5:D0:76:45:CD:D9:85:66:5A:7B:69:ED:E6:DC:89:F7:67:BE:E6:7A:26:31:D6:55:09:48:79:09:A7:70",
-                "BC:97:90:29:55:C0:C7:B2:2E:11:FE:F7:E2:B7:DA:49:26:3E:CD:FC:F9:D9:7C:BE:96:9C:BD:D3:51:8D:03:3A"
-            ]
+            "sha256_cert_fingerprints": ["45:04:E5:D0:76:45:CD:D9:85:66:5A:7B:69:ED:E6:DC:89:F7:67:BE:E6:7A:26:31:D6:55:09:48:79:09:A7:70"]
         }
     }
 ]
