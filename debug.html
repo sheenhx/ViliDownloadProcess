@@ -57,6 +57,8 @@
     <button class="test-button" onclick="testAppLink()">Test App Link (https://)</button>
     <button class="test-button" onclick="testIntentUrl()">Test Android Intent URL</button>
     <button class="test-button" onclick="testCurrentPageScheme()">Test Current Page as moonbase://</button>
+    <button class="test-button" onclick="testWithTargetUrl()">Test with Encoded Target URL</button>
+    <button class="test-button" onclick="testWithQueryParam()">Test with Query Parameter</button>
     <button class="test-button" onclick="clearLog()">Clear Log</button>
 
     <div id="log"></div>
@@ -149,6 +151,21 @@
             } else {
                 window.location = modifiedUrl;
             }
+        }
+
+        function testWithTargetUrl() {
+            // Test with URL encoding
+            const encodedUrl = encodeURIComponent('https://testnet.blueberryring.com');
+            const testUrl = `https://mxc1usd.com/app/${encodedUrl}`;
+            log(`Testing with encoded URL: ${testUrl}`);
+            window.location = testUrl;
+        }
+
+        function testWithQueryParam() {
+            // Test with query parameter
+            const testUrl = `https://mxc1usd.com/app/?url=https://testnet.blueberryring.com`;
+            log(`Testing with query parameter: ${testUrl}`);
+            window.location = testUrl;
         }
 
         // Log page load

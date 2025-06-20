@@ -180,46 +180,73 @@
       const isAndroid = /Android/i.test(navigator.userAgent);
       const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+      // Extract the full path and query parameters to pass to the app
+      let pathData = window.location.pathname + window.location.search + window.location.hash;
+      console.log("Path data to pass to app: " + pathData);
+
       if (isAndroid) {
-        // For Android, try the custom scheme first, then fallback to Play Store
-        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
-        console.log("Android modifiedUrl: " + modifiedUrl);
+        // For Android, construct the proper deep link URL
+        // First try App Link format: https://mxc1usd.com/app/[data]
+        let appLinkUrl = `https://mxc1usd.com/app${pathData}`;
+        console.log("Android App Link: " + appLinkUrl);
         
-        // Try to open the app with the custom scheme
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = modifiedUrl;
-        document.body.appendChild(iframe);
+        // Try to open with App Link first
+        const appLinkIframe = document.createElement('iframe');
+        appLinkIframe.style.display = 'none';
+        appLinkIframe.src = appLinkUrl;
+        document.body.appendChild(appLinkIframe);
         
-        // Remove the iframe after attempting to open
         setTimeout(() => {
-          document.body.removeChild(iframe);
+          document.body.removeChild(appLinkIframe);
         }, 100);
         
-        // Fallback to Play Store if app doesn't open (after a delay)
+        // Then try custom scheme: moonbase://mxc1usd.com/app/[data]
+        setTimeout(() => {
+          let customSchemeUrl = `moonbase://mxc1usd.com/app${pathData}`;
+          console.log("Android Custom Scheme: " + customSchemeUrl);
+          
+          const schemeIframe = document.createElement('iframe');
+          schemeIframe.style.display = 'none';
+          schemeIframe.src = customSchemeUrl;
+          document.body.appendChild(schemeIframe);
+          
+          setTimeout(() => {
+            document.body.removeChild(schemeIframe);
+          }, 100);
+        }, 200);
+        
+        // Fallback to Play Store if app doesn't open
         setTimeout(() => {
           if (document.visibilityState === 'visible') {
-            // App didn't open, redirect to Play Store
+            console.log("App didn't open, redirecting to Play Store");
             window.location.href = 'https://play.google.com/store/apps/details?id=com.moonchain.app';
           }
         }, 1500);
         
       } else if (isiOS) {
-        // For iOS, use the universal link approach
-        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
-        console.log("iOS modifiedUrl: " + modifiedUrl);
+        // For iOS, use Universal Link first, then custom scheme
+        let appLinkUrl = `https://mxc1usd.com/app${pathData}`;
+        console.log("iOS App Link: " + appLinkUrl);
         
-        setTimeout(function () {
-          window.location = modifiedUrl;
+        // Try Universal Link first
+        setTimeout(() => {
+          window.location = appLinkUrl;
         }, 100);
+        
+        // Fallback to custom scheme after a short delay
+        setTimeout(() => {
+          let customSchemeUrl = `moonbase://mxc1usd.com/app${pathData}`;
+          console.log("iOS Custom Scheme fallback: " + customSchemeUrl);
+          window.location = customSchemeUrl;
+        }, 300);
         
       } else {
         // For other platforms, try the custom scheme
-        let modifiedUrl = currentUrl.replace(/^https/, "moonbase");
-        console.log("Other platform modifiedUrl: " + modifiedUrl);
+        let customSchemeUrl = `moonbase://mxc1usd.com/app${pathData}`;
+        console.log("Other platform Custom Scheme: " + customSchemeUrl);
         
         setTimeout(function () {
-          window.location = modifiedUrl;
+          window.location = customSchemeUrl;
         }, 100);
       }
     }
