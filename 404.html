@@ -198,22 +198,34 @@
       if (isAndroid) {
         console.log("Android detected");
         
+
+        // For iOS, try Universal Link
+        let appLinkUrl = `moonbase://mxc1usd.com${pathData}`;
+        console.log("Android App Link: " + appLinkUrl);
+        window.location.href = appLinkUrl;
+        
+
+        setTimeout(() => {
+          if (document.visibilityState === 'visible') {
+            window.location.href = 'https://play.google.com/store/apps/details?id=com.moonchain.app';
+          }
+        }, 2000);
         // Try Android Intent URL first - most reliable method
-        if (pathData && pathData !== '/') {
-          let targetUrl = pathData.replace(/^\//, '');
-          let intentUrl = `intent://mxc1usd.com/app/?url=${encodeURIComponent('https://' + targetUrl)}#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end`;
-          console.log("Trying Intent URL: " + intentUrl);
-          window.location.href = intentUrl;
-        } else {
-          // Simple intent for homepage
-          window.location.href = 'intent://mxc1usd.com/app#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end';
-        }
+        // if (pathData && pathData !== '/') {
+        //   let targetUrl = pathData.replace(/^\//, '');
+        //   let intentUrl = `intent://mxc1usd.com/app/?url=${encodeURIComponent('https://' + targetUrl)}#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end`;
+        //   console.log("Trying Intent URL: " + intentUrl);
+        //   window.location.href = intentUrl;
+        // } else {
+        //   // Simple intent for homepage
+        //   window.location.href = 'intent://mxc1usd.com/app#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end';
+        // }
         
       } else if (isiOS) {
         console.log("iOS detected");
         
         // For iOS, try Universal Link
-        let appLinkUrl = `https://mxc1usd.com/app${pathData}`;
+        let appLinkUrl = `moonbase://mxc1usd.com${pathData}`;
         console.log("iOS App Link: " + appLinkUrl);
         window.location.href = appLinkUrl;
         
@@ -226,7 +238,7 @@
         
       } else {
         // For other platforms, try the custom scheme
-        let customSchemeUrl = `moonbase://mxc1usd.com/app${pathData}`;
+        let customSchemeUrl = `moonbase://mxc1usd.com${pathData}`;
         console.log("Other platform Custom Scheme: " + customSchemeUrl);
         window.location.href = customSchemeUrl;
       }
