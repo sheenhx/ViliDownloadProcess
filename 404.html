@@ -209,17 +209,7 @@
           if (document.visibilityState === 'visible') {
             window.location.href = 'https://play.google.com/store/apps/details?id=com.moonchain.app';
           }
-        }, 2000);
-        // Try Android Intent URL first - most reliable method
-        // if (pathData && pathData !== '/') {
-        //   let targetUrl = pathData.replace(/^\//, '');
-        //   let intentUrl = `intent://mxc1usd.com/app/?url=${encodeURIComponent('https://' + targetUrl)}#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end`;
-        //   console.log("Trying Intent URL: " + intentUrl);
-        //   window.location.href = intentUrl;
-        // } else {
-        //   // Simple intent for homepage
-        //   window.location.href = 'intent://mxc1usd.com/app#Intent;scheme=moonbase;package=com.moonchain.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.moonchain.app;end';
-        // }
+        }, 5000);
         
       } else if (isiOS) {
         console.log("iOS detected");
@@ -234,7 +224,7 @@
           if (document.visibilityState === 'visible') {
             window.location.href = 'https://apps.apple.com/app/moonbase-the-mining-hub/id6736371768';
           }
-        }, 2000);
+        }, 5000);
         
       } else {
         // For other platforms, try the custom scheme
